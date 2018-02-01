@@ -300,7 +300,7 @@ namespace SharpTracer
 
         public override bool Intersect(ref Intersection i)
         {
-            var localRay = i.m_ray;
+            var localRay = new Ray(i.m_ray);
             localRay.m_origin -= m_position;
 
             double a = localRay.m_direction.Len2();
@@ -342,6 +342,11 @@ namespace SharpTracer
                 double temp = t1;
                 t1 = t0;
                 t0 = temp;
+            }
+
+            if ( t0 >= i.m_t || t1 < Shared.kRayTMin )
+            {
+                return false;
             }
 
             if (t0 >= Shared.kRayTMin)

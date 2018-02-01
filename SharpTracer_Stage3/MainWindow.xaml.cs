@@ -23,7 +23,7 @@ namespace SharpTracer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+         public MainWindow()
         {
             InitializeComponent();
         }
@@ -86,7 +86,7 @@ namespace SharpTracer
                 return result;
             }
 
-             result += i.m_pMaterial.Emittance();
+            result += i.m_pMaterial.Emittance();
 
             var position = i.Position();
             foreach (var light in lights)
@@ -100,8 +100,11 @@ namespace SharpTracer
                         var lightNormal = new Vec3();
                         var pLightShape = light;
 
-                        pLightShape.SampleSurface(rng.NextDouble(), rng.NextDouble(), position, ref lightPoint,
-                            ref lightNormal);
+                        // var testDouble = (lsu + rng.NextDouble()) / (double) Shared.lightSamplesU;
+
+                        pLightShape.SampleSurface((lsu + rng.NextDouble()) / (double)Shared.lightSamplesU, 
+                                                  (lsv + rng.NextDouble()) / (double)Shared.lightSamplesV, 
+                                                   position, ref lightPoint, ref lightNormal);
 
                         var toLight = lightPoint - position;
                         var lightDistance = toLight.Len();
@@ -148,9 +151,9 @@ namespace SharpTracer
                                   true);
             masterSet.AddShape(plane);
 
-            //var sphere1 = new Sphere(new Point(3.0f, -1.0f, 0.0f),
-            //                         1.0f, purplishLambert);
-            //masterSet.AddShape(sphere1);
+            var sphere1 = new Sphere(new Point(3.0f, -1.0f, 0.0f),
+                                     1.0f, purplishLambert);
+            masterSet.AddShape(sphere1);
 
             var sphere2 = new Sphere(new Point(-3.0f, 0.0f, -2.0f),
                 2.0f, greenishPhong);
@@ -173,10 +176,10 @@ namespace SharpTracer
 
             //masterSet.AddShape(smallAreaLight);
 
-            //var sphereForLight = new Sphere(new Point(0.0f, 0.0f, 2.0f),
-            //                                1.0f, blueishLambert);
-            //var sphereLight = new ShapeLight(sphereForLight, new Color(1.0f, 1.0f, 0.1f), 4.0f);
-            //masterSet.AddShape(sphereLight);
+            var sphereForLight = new Sphere(new Point(0.0f, 0.0f, 2.0f),
+                                            1.0f, blueishLambert);
+            var sphereLight = new ShapeLight(sphereForLight, new Color(1.0f, 1.0f, 0.1f), 4.0f);
+            masterSet.AddShape(sphereLight);
 
             var lights = new List<Shape>();
             masterSet.FindLights(lights);
