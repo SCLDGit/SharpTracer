@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTracer_Stage2", "SharpTracer_Stage2\SharpTracer_Stage2.csproj", "{559F244C-6FEA-4EC3-AA05-0A41F89EC626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpTracer_Stage3", "SharpTracer_Stage3\SharpTracer_Stage3.csproj", "{EB6BE89C-DDE2-488A-8B54-E79EDBF4C7CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{559F244C-6FEA-4EC3-AA05-0A41F89EC626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559F244C-6FEA-4EC3-AA05-0A41F89EC626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559F244C-6FEA-4EC3-AA05-0A41F89EC626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559F244C-6FEA-4EC3-AA05-0A41F89EC626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB6BE89C-DDE2-488A-8B54-E79EDBF4C7CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB6BE89C-DDE2-488A-8B54-E79EDBF4C7CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB6BE89C-DDE2-488A-8B54-E79EDBF4C7CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB6BE89C-DDE2-488A-8B54-E79EDBF4C7CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

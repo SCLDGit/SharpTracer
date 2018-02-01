@@ -1,0 +1,34 @@
+﻿<Window x:Class="SharpTracer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SharpTracer"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="640" Height="480">
+    <DockPanel>
+        <DockPanel Height="299" LastChildFill="False" DockPanel.Dock="Top" VerticalAlignment="Top"/>
+        <DockPanel LastChildFill="False" DockPanel.Dock="Top">
+            <DockPanel LastChildFill="False" HorizontalAlignment="Left">
+                <Label Content="Height:" FontWeight="Bold" DockPanel.Dock="Top"></Label>
+                <Label Content="Width:" FontWeight="Bold" DockPanel.Dock="Top"></Label>
+                <Label Content="File Name:" FontWeight="Bold" DockPanel.Dock="Top"/>
+            </DockPanel>
+            <DockPanel LastChildFill="False" HorizontalAlignment="Left">
+                <TextBox x:Name="FLD_height" Width="50" VerticalAlignment="Top" Margin="0,5" DockPanel.Dock="Top"></TextBox>
+                <TextBox x:Name="FLD_width" Width="50" VerticalAlignment="Top" Margin="0,3,0,5" DockPanel.Dock="Top"></TextBox>
+                <TextBox x:Name="FLD_fileName" Width="100" VerticalAlignment="Top" Margin="0,3,0,5" DockPanel.Dock="Top" Text="out.ppm"/>
+            </DockPanel>
+            <DockPanel LastChildFill="False" HorizontalAlignment="Left">
+                <Label Content="Pixel Samples:" FontWeight="Bold" DockPanel.Dock="Top"></Label>
+                <Label Content="Light Samples:" FontWeight="Bold" DockPanel.Dock="Top"></Label>
+            </DockPanel>
+            <DockPanel LastChildFill="False" HorizontalAlignment="Left">
+                <TextBox x:Name="FLD_pixelSamples" Width="50" VerticalAlignment="Top" Margin="0,5" DockPanel.Dock="Top"></TextBox>
+                <TextBox x:Name="FLD_lightSamples" Width="50" VerticalAlignment="Top" Margin="0,3,0,5" DockPanel.Dock="Top"></TextBox>
+            </DockPanel>
+            <Button Content="GO!" Width="50" DockPanel.Dock="Bottom" Height="35" HorizontalAlignment="Right" Margin="0,0,15,15" Click="Button_Click"/>
+        </DockPanel>
+    </DockPanel>
+
+</Window>
