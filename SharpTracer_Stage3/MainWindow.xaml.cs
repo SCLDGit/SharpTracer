@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using SharpTracer_Stage3;
+
 using Point = SharpTracer.Vec3;
 
 namespace SharpTracer
@@ -21,7 +12,7 @@ namespace SharpTracer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
          public MainWindow()
         {
@@ -45,7 +36,7 @@ namespace SharpTracer
                 return i * 2.328306e-10f;
             }
 
-            public uint NextUInt32()
+            private uint NextUInt32()
             {
                 m_z = 36969 * (m_z & 65535) + (m_z >> 16);
                 m_w = 18000 * (m_w & 65535) + (m_w >> 16);
@@ -53,8 +44,8 @@ namespace SharpTracer
             }
         }
 
-        Ray makeCameraRay(double fieldOfViewInDegrees, Point origin, Vec3 target, Vec3 targetUpDirection,
-            double xScreenPos0to1, double yScreenPos0to1)
+        private static Ray MakeCameraRay(double fieldOfViewInDegrees, Point origin, Vec3 target, Vec3 targetUpDirection,
+            double xScreenPos0To1, double yScreenPos0To1)
         {
             var forward = (target - origin).Normalize();
             var right = Vec3.Cross(forward, targetUpDirection).Normalize();
@@ -66,8 +57,8 @@ namespace SharpTracer
             {
                 m_origin = origin,
                 m_direction = forward +
-                              right * ((xScreenPos0to1 - 0.5f) * tanFov) +
-                              up * ((yScreenPos0to1 - 0.5f) * tanFov)
+                              right * ((xScreenPos0To1 - 0.5f) * tanFov) +
+                              up * ((yScreenPos0To1 - 0.5f) * tanFov)
             };
 
             ray.m_direction = ray.m_direction.Normalize();
@@ -75,7 +66,7 @@ namespace SharpTracer
             return ray;
         }
 
-        public Color Trace(Ray ray, ShapeSet scene, List<Shape> lights, Rng rng)
+        private Color Trace(Ray ray, ShapeSet scene, List<Shape> lights, Rng rng)
         {
             var result = new Color();
 
@@ -102,8 +93,8 @@ namespace SharpTracer
 
                         // var testDouble = (lsu + rng.NextDouble()) / (double) Shared.lightSamplesU;
 
-                        pLightShape.SampleSurface((lsu + rng.NextDouble()) / (double)Shared.lightSamplesU, 
-                                                  (lsv + rng.NextDouble()) / (double)Shared.lightSamplesV, 
+                        pLightShape.SampleSurface((lsu + rng.NextDouble()) / Shared.lightSamplesU, 
+                                                  (lsv + rng.NextDouble()) / Shared.lightSamplesV, 
                                                    position, ref lightPoint, ref lightNormal);
 
                         var toLight = lightPoint - position;
@@ -256,10 +247,10 @@ namespace SharpTracer
                             {
                                 for (var usi = 0; usi < Shared.pixelSamplesU; ++usi)
                                 {
-                                    var yu = 1.0f - ((y + (vsi + rng.NextDouble()) / (double)Shared.pixelSamplesV) / (double)Shared.imageHeight);
-                                    var xu = (x + (usi + rng.NextDouble()) / (double)Shared.pixelSamplesU) / (double)Shared.imageWidth;
+                                    var yu = 1.0f - (y + (vsi + rng.NextDouble()) / Shared.pixelSamplesV) / Shared.imageHeight;
+                                    var xu = (x + (usi + rng.NextDouble()) / Shared.pixelSamplesU) / Shared.imageWidth;
 
-                                    var ray = makeCameraRay(45.0f,
+                                    var ray = MakeCameraRay(45.0f,
                                         new Point(0.0f, 5.0f, 15.0f),
                                         new Point(0.0f, 0.0f, 0.0f),
                                         new Point(0.0f, 1.0f, 0.0f),
@@ -271,11 +262,9 @@ namespace SharpTracer
                             pixelColor.DivValue(Shared.pixelSamplesV * Shared.pixelSamplesU);
                             pixelColor.Clamp();
 
-                            int r, g, b;
-
-                            r = (int)(pixelColor.m_r * 255.0f);
-                            g = (int)(pixelColor.m_g * 255.0f);
-                            b = (int)(pixelColor.m_b * 255.0f);
+                            var r = (int)(pixelColor.m_r * 255.0f);
+                            var g = (int)(pixelColor.m_g * 255.0f);
+                            var b = (int)(pixelColor.m_b * 255.0f);
 
                             sw.Write(r + " " + g + " " + b + " ");
                         }

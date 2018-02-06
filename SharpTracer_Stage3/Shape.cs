@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Converters;
-using System.Windows.Navigation;
+
 using SharpTracer_Stage3;
+
 using Point = SharpTracer.Vec3;
 
 namespace SharpTracer
 {
     public class Shape
     {
-        public Shape()
-        {
-
-        }
-
         public virtual bool Intersect(ref Intersection i)
         {
             return false;
@@ -41,13 +32,9 @@ namespace SharpTracer
 
     public class ShapeSet : Shape
     {
-        public List<Shape> m_shapes = new List<Shape>();
-        public ShapeSet()
-        {
+        private readonly List<Shape> m_shapes = new List<Shape>();
 
-        }
-
-        public virtual bool Intersect(ref Intersection i)
+        public override bool Intersect(ref Intersection i)
         {
             var intersectedAny = false;
             foreach (var shape in m_shapes)
@@ -63,7 +50,7 @@ namespace SharpTracer
             return intersectedAny;
         }
 
-        public virtual void FindLights(List<Shape> outLightList)
+        public override void FindLights(List<Shape> outLightList)
         {
             foreach (var shape in m_shapes)
             {
@@ -85,9 +72,9 @@ namespace SharpTracer
 
     public class Light : Shape
     {
-        public Color m_color;
-        public double m_power;
-        public Emitter m_material;
+        protected Color m_color;
+        protected double m_power;
+        private Emitter m_material;
 
         public Light(Color c, double power)
         {
@@ -114,9 +101,9 @@ namespace SharpTracer
 
     public class RectangleLight : Light
     {
-        public Point m_position;
-        public Vec3 m_side1;
-        public Vec3 m_side2;
+        private readonly Point m_position;
+        private readonly Vec3 m_side1;
+        private readonly Vec3 m_side2;
         //public Light light;
 
         public RectangleLight(Point pos, Vec3 side1, Vec3 side2, Color color, double power)
@@ -185,6 +172,7 @@ namespace SharpTracer
         public override bool SampleSurface(double u1, double u2, Point referencePosition, ref Point outPosition,
             ref Vec3 outNormal)
         {
+            if ( outPosition == null ) throw new ArgumentNullException(nameof(outPosition));
             outNormal = Vec3.Cross(m_side1, m_side2).Normalize();
             outPosition = m_position + m_side1 * u1 + m_side2 * u2;
 
@@ -320,7 +308,7 @@ namespace SharpTracer
             i.m_colorModifier = new Color(1.0f, 1.0f, 1.0f);
             i.m_normal = m_normal;
 
-            if (m_bullseye && ((i.Position() - m_position).Len() * 0.25f) % 1.0f > 0.5f)
+            if (m_bullseye && (i.Position() - m_position).Len() * 0.25f % 1.0f > 0.5f)
             {
                 i.m_colorModifier *= 0.2f;
             }

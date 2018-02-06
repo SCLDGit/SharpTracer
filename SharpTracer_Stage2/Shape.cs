@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 using Point = SharpTracer.Vec3;
 
 namespace SharpTracer
 {
     public class Shape
     {
-        public Shape()
-        {
-
-        }
-
         public virtual bool Intersect(ref Intersection i)
         {
             return false;
@@ -39,10 +30,6 @@ namespace SharpTracer
     public class ShapeSet : Shape
     {
         public List<Shape> m_shapes = new List<Shape>();
-        public ShapeSet()
-        {
-
-        }
 
         public virtual bool Intersect(ref Intersection i)
         {
@@ -233,7 +220,7 @@ namespace SharpTracer
             i.m_emitted = new Color();
             i.m_normal = m_normal;
 
-            if (m_bullseye && ((i.Position() - m_position).Len() * 0.25f) % 1.0f > 0.5f)
+            if (m_bullseye && (i.Position() - m_position).Len() * 0.25f % 1.0f > 0.5f)
             {
                 i.m_color *= 0.2f;
             }

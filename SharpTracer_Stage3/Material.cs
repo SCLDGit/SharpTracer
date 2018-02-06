@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.TextFormatting;
+
 using SharpTracer;
 
 using Point = SharpTracer.Vec3;
@@ -12,11 +8,6 @@ namespace SharpTracer_Stage3
 {
     public class Material
     {
-        public Material()
-        {
-
-        }
-
         public virtual Color Emittance()
         {
             return new Color();
@@ -30,7 +21,7 @@ namespace SharpTracer_Stage3
 
     public class Lambert : Material
     {
-        public Color m_color;
+        private readonly Color m_color;
 
         public Lambert(Color c)
         {
@@ -45,8 +36,8 @@ namespace SharpTracer_Stage3
 
     public class Phong : Material
     {
-        public Color m_color;
-        public double m_exponent;
+        private readonly Color m_color;
+        private readonly double m_exponent;
 
         public Phong( Color c, double exponent)
         {
@@ -56,15 +47,15 @@ namespace SharpTracer_Stage3
 
         public override Color Shade( Point position, Vec3 normal, Vec3 incomingRayDirection, Vec3 lightDirectionNorm )
         {
-            Vec3 halfVec = (lightDirectionNorm - incomingRayDirection).Normalize();
+            var halfVec = (lightDirectionNorm - incomingRayDirection).Normalize();
             return Math.Pow(Math.Max(0.0f, Vec3.Dot(halfVec, normal)), m_exponent) * m_color;
         }
     }
 
     public class Emitter : Material
     {
-        public Color m_color;
-        public double m_power;
+        private readonly Color m_color;
+        private readonly double m_power;
 
         public Emitter( Color c, double power )
         {

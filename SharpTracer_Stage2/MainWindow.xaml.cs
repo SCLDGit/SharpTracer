@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using Point = SharpTracer.Vec3;
 
 namespace SharpTracer
@@ -128,7 +119,7 @@ namespace SharpTracer
                         {
                             Parallel.For(0, samples, i =>
                             {
-                                var yu = 1.0f - ((y + rng.NextDouble()) / (imageHeight - 1));
+                                var yu = 1.0f - (y + rng.NextDouble()) / (imageHeight - 1);
                                 var xu = (x + rng.NextDouble()) / (imageWidth - 1);
 
                                 var ray = makeCameraRay(45.0f,
@@ -174,7 +165,7 @@ namespace SharpTracer
                         {
                             for ( var si = 0; si < samples; ++si )
                             {
-                                var yu = 1.0f - ((y + rng.NextDouble()) / (imageHeight - 1));
+                                var yu = 1.0f - (y + rng.NextDouble()) / (imageHeight - 1);
                                 var xu = (x + rng.NextDouble()) / (imageWidth - 1);
 
                                 var ray = makeCameraRay(45.0f,

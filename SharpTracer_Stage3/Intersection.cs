@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
-using SharpTracer_Stage3;
+﻿using SharpTracer_Stage3;
+
 using Point = SharpTracer.Vec3;
 
 namespace SharpTracer
@@ -60,7 +55,7 @@ namespace SharpTracer
 
         public bool Intersected()
         {
-            return (m_pShape != null);
+            return m_pShape != null;
         }
 
         public Point Position()
