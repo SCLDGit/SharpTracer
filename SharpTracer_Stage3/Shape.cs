@@ -240,6 +240,50 @@ namespace SharpTracer
         }
     }
 
+    public class PointLamp : Light
+    {
+        public Point m_position;
+        public Color m_color;
+        public double m_power;
+
+        public PointLamp(Point position, Color c, double power)
+        {
+            m_position = position;
+            m_color = c;
+            m_power = power;
+        }
+
+        public override bool Intersect(ref Intersection i)
+        {
+            if ( !i.m_ray.m_isShadowRay ) return false;
+            var t = (m_position - i.m_ray.m_origin).Len();
+            if (t >= i.m_t || t < Shared.kRayTMin)
+            {
+                return false;
+            }
+
+            i.m_t = t;
+            i.m_pMaterial = new Emitter(m_color, m_power);
+            i.m_pShape = this;
+
+            return true;
+
+
+        }
+
+        public override bool SampleSurface(double u1, double u2, Point referencePosition, ref Point outPosition,
+                                           ref Vec3 outNormal)
+        {
+            outPosition = m_position;
+            return true;
+        }
+
+        public override Color Emitted()
+        {
+            return m_color * m_power;
+        }
+    }
+
     public class Plane : Shape
     {
         public Point m_position;

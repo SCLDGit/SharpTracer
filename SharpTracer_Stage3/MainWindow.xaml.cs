@@ -109,14 +109,14 @@ namespace SharpTracer
                         var toLight = lightPoint - position;
                         var lightDistance = toLight.Len();
                         toLight = toLight.Normalize();
-                        var shadowRay = new Ray(position, toLight, lightDistance);
+                        var shadowRay = new Ray(true, position, toLight, lightDistance);
                         var shadowIntersection = new Intersection(ref shadowRay);
                         var intersected = scene.Intersect(ref shadowIntersection);
 
                         if ( !intersected || shadowIntersection.m_pShape == pLightShape )
                         {
                             lightResult += pLightShape.Emitted() * i.m_colorModifier *
-                                           i.m_pMaterial.Shade(position, i.m_normal, ray.m_direction, toLight);
+                                           i.m_pMaterial.Shade(position, i.m_normal, ray.m_direction, toLight) * (1.0f / (lightDistance * lightDistance));
                         }
                     }
                 }
@@ -134,6 +134,7 @@ namespace SharpTracer
             // Available materials:
             var blueishLambert = new Lambert(new Color(0.9f, 0.9f, 1.0f));
             var purplishLambert = new Lambert(new Color(0.9f, 0.7f, 0.8f));
+            var greenishLambert = new Lambert(new Color(0.7f, 0.9f, 0.7f));
             var greenishPhong = new Phong(new Color(0.7f, 0.9f, 0.7f), 16.0f);
 
             Shared.imageWidth = Convert.ToUInt32(FLD_width.Text);
@@ -156,16 +157,19 @@ namespace SharpTracer
             masterSet.AddShape(sphere1);
 
             var sphere2 = new Sphere(new Point(-3.0f, 0.0f, -2.0f),
-                2.0f, greenishPhong);
+                2.0f, greenishLambert);
             masterSet.AddShape(sphere2);
 
-            var areaLightSize = 5.0f;
-            var areaLight = new RectangleLight(new Point(-(areaLightSize / 2), 4.0f, -(areaLightSize / 2)),
-                                               new Vec3(areaLightSize, 0.0f, 0.0f),
-                                               new Vec3(0.0f, 0.0f, areaLightSize),
-                                               new Color(1.0f, 1.0f, 1.0f),
-                                               1.0f);
-            masterSet.AddShape(areaLight);
+            var pointLamp = new PointLamp(new Vec3(0.0f, 15.0f, 0.0f), new Color(1.0f, 1.0f, 1.0f), 300.0f);
+            masterSet.AddShape(pointLamp);
+
+            //var areaLightSize = 5.0f;
+            //var areaLight = new RectangleLight(new Point(-(areaLightSize / 2), 4.0f, -(areaLightSize / 2)),
+            //                                   new Vec3(areaLightSize, 0.0f, 0.0f),
+            //                                   new Vec3(0.0f, 0.0f, areaLightSize),
+            //                                   new Color(1.0f, 1.0f, 1.0f),
+            //                                   1.0f);
+            //masterSet.AddShape(areaLight);
 
             //var smallAreaLightSize = 3.0f;
             //var smallAreaLight = new RectangleLight(new Point(-(smallAreaLightSize / 2), -1.0f, -(smallAreaLightSize / 2)),
@@ -176,10 +180,10 @@ namespace SharpTracer
 
             //masterSet.AddShape(smallAreaLight);
 
-            var sphereForLight = new Sphere(new Point(0.0f, 0.0f, 2.0f),
-                                            1.0f, blueishLambert);
-            var sphereLight = new ShapeLight(sphereForLight, new Color(1.0f, 1.0f, 0.1f), 4.0f);
-            masterSet.AddShape(sphereLight);
+            //var sphereForLight = new Sphere(new Point(0.0f, 0.0f, 2.0f),
+            //                                1.0f, blueishLambert);
+            //var sphereLight = new ShapeLight(sphereForLight, new Color(1.0f, 1.0f, 0.1f), 4.0f);
+            //masterSet.AddShape(sphereLight);
 
             var lights = new List<Shape>();
             masterSet.FindLights(lights);
